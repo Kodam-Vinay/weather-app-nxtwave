@@ -13,7 +13,6 @@ const MainBody = () => {
       const res = await fetch(apiUrl);
       const data = await res.json();
       if (res.ok) {
-        console.log(data);
         if (data?.cod === 200) {
           setWeatherReport(data);
           setApiStatus(API_STATUS_LIST.success);
