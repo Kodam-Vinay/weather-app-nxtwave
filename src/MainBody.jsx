@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { API_STATUS_LIST } from "./constants";
+import { API_STATUS_LIST, IMAGES_LIST } from "./constants";
 
 const MainBody = () => {
   const [apiStatus, setApiStatus] = useState(API_STATUS_LIST.initial);
   const [weatherReport, setWeatherReport] = useState({});
   const [searchInput, setSearchInput] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const getData = async () => {
     setApiStatus(API_STATUS_LIST.loading);
@@ -24,7 +23,6 @@ const MainBody = () => {
       }
     } catch (error) {
       setApiStatus(API_STATUS_LIST.failure);
-      setErrorMessage(error.message);
     }
   };
 
@@ -42,7 +40,35 @@ const MainBody = () => {
   };
 
   const renderWeatherData = () => {
-    return <div>data</div>;
+    return (
+      <div>
+        <h4>
+          Date:
+          {new Date().getDay() +
+            "/" +
+            new Date().getMonth() +
+            "/" +
+            new Date().getFullYear()}
+        </h4>
+        <img
+          className="weather_image"
+          src={
+            weatherReport?.weather[0]?.description === "sunny"
+              ? IMAGES_LIST.SUN_IMAGE
+              : weatherReport?.weather[0]?.description === "haze"
+              ? IMAGES_LIST.HAZE_IMAGE
+              : IMAGES_LIST.RAINY_IMAGE
+          }
+        />
+        <h3>City: {weatherReport?.name}</h3>
+        <h3>
+          Temperature: {weatherReport?.main?.temp}
+          <sup>o</sup>C
+        </h3>
+        <h3>Humidity: {weatherReport?.weather[0]?.description}</h3>
+        <h3>Wind Speed: {weatherReport?.wind?.speed}</h3>
+      </div>
+    );
   };
 
   const renderError = () => {
